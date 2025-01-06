@@ -1,0 +1,22 @@
+{
+  "name": "softr-cvx-utils",
+  "version": "0.0.1",
+  "description": "The collection of the custom utilities used in the Softr develoment project of CVx",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benhuangbmj/softr-cvx-utils.git"
+  },
+  "keywords": [
+    "Softr"
+  ],
+  "author": "Ben Huang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benhuangbmj/softr-cvx-utils/issues"
+  },
+  "homepage": "https://github.com/benhuangbmj/softr-cvx-utils#readme"
+}
