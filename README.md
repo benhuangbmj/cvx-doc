@@ -1,1 +1,1 @@
-This repo is for the personal documentation for the CVx project.
+Develop and distribute the Softr utility functions used in the CVx project.
