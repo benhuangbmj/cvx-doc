@@ -110,7 +110,6 @@ class Utils {
         }
       }
       if (reapply) processNextPrevButtons();
-      console.log("next");
     }
     function handleClickPrev() {
       processNextPrevButtons();
