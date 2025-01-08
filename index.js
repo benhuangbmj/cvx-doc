@@ -26,7 +26,7 @@ class Utils {
     handleQueried = () => {}
   ) {
     if (locked) {
-      //document.body.style.pointerEvents = "none";
+      document.body.style.pointerEvents = "none";
     }
     function queryInterval() {
       return new Promise((resolve, reject) => {
@@ -66,6 +66,9 @@ class Utils {
     locked = false,
     handleQueried = () => {}
   ) {
+    if (locked) {
+      document.body.style.pointerEvents = "none";
+    }
     function evaluate(xpath) {
       return document.evaluate(
         xpath,
@@ -79,6 +82,7 @@ class Utils {
       return queryInterval(xpath, evaluate);
     }
     queryLoop(query, callback, handleQueried);
+    document.body.style.pointerEvents = "auto";
   }
 
   static generateFormDataValidation({
