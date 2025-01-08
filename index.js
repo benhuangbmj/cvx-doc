@@ -140,3 +140,5 @@ class Utils {
     processNextPrevButtons();
   }
 }
+
+window.Utils = Utils;
