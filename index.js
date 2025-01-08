@@ -17,7 +17,7 @@ async function queryLoop(query, callback, handleQueried, limit = 50) {
   }
 }
 
-export default class Utils {
+class Utils {
   static async querySelectorSequence(
     selector,
     callback = () => {},
