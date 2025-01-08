@@ -7,16 +7,16 @@ class Utils {
     handleQueries = () => {}
   ) {
     if (locked) {
-      document.body.style.pointerEvents = "none";
+      //document.body.style.pointerEvents = "none";
     }
     function queryInterval() {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const node = document.querySelector(selector);
-          if (node && !node.dataset.queried) {
+          if (node && !node.dataset?.queried) {
             node.setAttribute("data-queried", true);
             resolve(node);
-          } else if (node.dataset.queried) {
+          } else if (node?.dataset?.queried) {
             reject("queried");
           } else {
             reject("not found");
@@ -39,6 +39,21 @@ class Utils {
       }
     }
     document.body.style.pointerEvents = "auto";
+  }
+
+  static async evaluateSequence(xpath, callback = () => {}) {
+    setTimeout(() => {
+      const result = document.evaluate(
+        xpath,
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      );
+      const element = result.singleNodeValue;
+      const button = element?.closest("button");
+      callback(button);
+    }, 2000);
   }
 
   static generateFormDataValidation({
@@ -77,15 +92,8 @@ class Utils {
       node.addEventListener("click", handleClickPrev);
     }
     function processNextPrevButtons() {
-      Utils.querySelectorSequence(
-        "button._51290ae_nw87ex7._51290ae_nw87ex8._51290ae_nw87exb",
-        handleNextButton,
-        true
-      );
-      Utils.querySelectorSequence(
-        "button._51290ae_nw87ex7._51290ae_nw87ex9._51290ae_nw87exb",
-        handlePrevButton
-      );
+      Utils.evaluateSequence("//div[text()='Next']", handleNextButton, true);
+      Utils.evaluateSequence("//div[text()='Previous']", handlePrevButton);
     }
     processNextPrevButtons();
   }
