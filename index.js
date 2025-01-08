@@ -1,10 +1,29 @@
+import queryInterval from "./helpers/queryInterval.js";
+
+async function queryLoop(query, callback, handleQueried, limit = 50) {
+  let count = 0;
+  while (count < limit) {
+    try {
+      const node = await query();
+      callback(node);
+      break;
+    } catch (err) {
+      if (err === "queried") {
+        handleQueried();
+      }
+    } finally {
+      count++;
+    }
+  }
+}
+
 class Utils {
   static async querySelectorSequence(
     selector,
     callback = () => {},
     locked = false,
     interval = 100,
-    handleQueries = () => {}
+    handleQueried = () => {}
   ) {
     if (locked) {
       //document.body.style.pointerEvents = "none";
@@ -32,7 +51,7 @@ class Utils {
         break;
       } catch (err) {
         if (err === "queried") {
-          handleQueries();
+          handleQueried();
         }
       } finally {
         count++;
@@ -41,19 +60,25 @@ class Utils {
     document.body.style.pointerEvents = "auto";
   }
 
-  static async evaluateSequence(xpath, callback = () => {}) {
-    setTimeout(() => {
-      const result = document.evaluate(
+  static evaluateSequence(
+    xpath,
+    callback = () => {},
+    locked = false,
+    handleQueried = () => {}
+  ) {
+    function evaluate(xpath) {
+      return document.evaluate(
         xpath,
         document,
         null,
         XPathResult.FIRST_ORDERED_NODE_TYPE,
         null
-      );
-      const element = result.singleNodeValue;
-      const button = element?.closest("button");
-      callback(button);
-    }, 2000);
+      ).singleNodeValue;
+    }
+    async function query() {
+      return queryInterval(xpath, evaluate);
+    }
+    queryLoop(query, callback, handleQueried);
   }
 
   static generateFormDataValidation({
@@ -81,15 +106,18 @@ class Utils {
         }
       }
       if (reapply) processNextPrevButtons();
+      console.log("next");
     }
     function handleClickPrev() {
       processNextPrevButtons();
     }
     function handleNextButton(node) {
-      node.addEventListener("click", handleClickNext);
+      const button = node.closest("button");
+      button.addEventListener("click", handleClickNext);
     }
     function handlePrevButton(node) {
-      node.addEventListener("click", handleClickPrev);
+      const button = node.closest("button");
+      button.addEventListener("click", handleClickPrev);
     }
     function processNextPrevButtons() {
       Utils.evaluateSequence("//div[text()='Next']", handleNextButton, true);
@@ -98,3 +126,4 @@ class Utils {
     processNextPrevButtons();
   }
 }
+Utils.generateFormDataValidation({});
