@@ -17,7 +17,7 @@ async function queryLoop(query, callback, handleQueried, limit = 50) {
   }
 }
 
-class Utils {
+export default class Utils {
   static async querySelectorSequence(
     selector,
     callback = () => {},
@@ -126,4 +126,3 @@ class Utils {
     processNextPrevButtons();
   }
 }
-Utils.generateFormDataValidation({});
