@@ -1,4 +1,4 @@
-export default function queryInterval(target, method, interval = 100) {
+function queryInterval(target, method, interval = 100) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const node = method(target);
@@ -13,3 +13,4 @@ export default function queryInterval(target, method, interval = 100) {
     }, interval);
   });
 }
+module.exports = queryInterval;

@@ -1,4 +1,4 @@
-import queryInterval from "./helpers/queryInterval.js";
+const queryInterval = require("./helpers/queryInterval.js");
 
 async function queryLoop(query, callback, handleQueried, limit = 50) {
   let count = 0;
