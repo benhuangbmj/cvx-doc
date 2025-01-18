@@ -20,22 +20,29 @@
 </script>
 
 <script>
+  let unattended = true;
   //Ensure the exchange rate table is loaded properly, even right after the bonus pool is created.
   const intervalTable3 = setInterval(() => {
     window.dispatchEvent(new CustomEvent("reload-block-table3"));
   }, 1000);
   window.addEventListener("get-records-table3", (e) => {
     if (e.detail.length > 0) {
-      for (let row of e.detail) {
-        if (row.fields.ExchangeRate === "") {
-          alert("Please set the staking tier exchange rate.");
-          const table = document.getElementById("table3");
-          table.scrollIntoView({ behavior: "smooth", block: "start" });
-          table.classList.add("animated-glow");
-          table.addEventListener("click", () => {
-            table.classList.remove("animated-glow");
-          });
-          break;
+      const tBDRows = e.detail.filter((row) => row.fields.Level === "TBD");
+      if (tBDRows.length > 0) return;
+      //Check if the exchange rate is set for all staking tiers, otherwise, prompt the user to set it.
+      if (unattended) {
+        for (let row of e.detail) {
+          if (row.fields.ExchangeRate === "") {
+            alert("Please set the staking tier exchange rate.");
+            const table = document.getElementById("table3");
+            table.scrollIntoView({ behavior: "smooth", block: "start" });
+            table.classList.add("animated-glow");
+            table.addEventListener("click", () => {
+              table.classList.remove("animated-glow");
+              unattended = false;
+            });
+            break;
+          }
         }
       }
       clearInterval(intervalTable3);
