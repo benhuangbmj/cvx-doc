@@ -31,6 +31,10 @@
           alert("Please set the staking tier exchange rate.");
           const table = document.getElementById("table3");
           table.scrollIntoView({ behavior: "smooth", block: "start" });
+          table.classList.add("animated-glow");
+          table.addEventListener("click", () => {
+            table.classList.remove("animated-glow");
+          });
           break;
         }
       }

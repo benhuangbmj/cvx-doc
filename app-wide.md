@@ -1,5 +1,20 @@
 # Header
 
+```css
+.animated-glow {
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(203, 75, 14, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(203, 75, 14, 1);
+  }
+}
+```
+
 ```javascript
 //Functions and variables used throughout the app
 
