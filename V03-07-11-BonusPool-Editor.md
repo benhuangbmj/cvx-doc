@@ -30,7 +30,7 @@
         if (row.fields.ExchangeRate === "") {
           alert("Please set the staking tier exchange rate.");
           const table = document.getElementById("table3");
-          table.scrollINtoView({ behavior: "smooth", block: "start" });
+          table.scrollIntoView({ behavior: "smooth", block: "start" });
           break;
         }
       }
