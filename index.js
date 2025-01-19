@@ -59,6 +59,44 @@ class Utils {
     }
     document.body.style.pointerEvents = "auto";
   }
+  static async querySelectorAllSequence(
+    selector,
+    callback = () => {},
+    locked = false,
+    interval = 100,
+    handleQueried = () => {}
+  ) {
+    if (locked) {
+      document.body.style.pointerEvents = "none";
+    }
+    function queryInterval() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const node = document.querySelectorAll(selector);
+          if (node) {
+            resolve(node);
+          } else {
+            reject("not found");
+          }
+        }, interval);
+      });
+    }
+    let count = 0;
+    while (count < 50) {
+      try {
+        const node = await queryInterval();
+        callback(node);
+        break;
+      } catch (err) {
+        if (err === "queried") {
+          handleQueried();
+        }
+      } finally {
+        count++;
+      }
+    }
+    document.body.style.pointerEvents = "auto";
+  }
 
   static evaluateSequence(
     xpath,
