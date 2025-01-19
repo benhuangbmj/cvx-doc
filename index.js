@@ -63,8 +63,7 @@ class Utils {
     selector,
     callback = () => {},
     locked = false,
-    interval = 100,
-    handleQueried = () => {}
+    interval = 100
   ) {
     if (locked) {
       document.body.style.pointerEvents = "none";
@@ -72,9 +71,9 @@ class Utils {
     function queryInterval() {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          const node = document.querySelectorAll(selector);
-          if (node) {
-            resolve(node);
+          const nodes = document.querySelectorAll(selector);
+          if (nodes) {
+            resolve(nodes);
           } else {
             reject("not found");
           }
@@ -84,8 +83,8 @@ class Utils {
     let count = 0;
     while (count < 50) {
       try {
-        const node = await queryInterval();
-        callback(node);
+        const nodes = await queryInterval();
+        callback(nodes);
         break;
       } catch (err) {
         if (err === "queried") {
